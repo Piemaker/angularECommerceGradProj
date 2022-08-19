@@ -1,22 +1,11 @@
-<div class="container">
-  <div class="row">
+<div class="container my-5">
+  <div class="row g-4">
     <div
-      *ngFor="let item of products; let i = index"
-      class="col-md-6 col-sm-12 col-lg-4"
+      *ngFor="let product of productArr; let i = index"
+      class="col-md-6 col-sm-12 col-lg-4 d-flex justify-content-center"
     >
-      <div class="card">
-        <img
-          class="card-img-top"
-          [src]="item.image !== null ? item.image : '../../assets/unknown.svg'"
-          alt="{{ item.title }}"
-        />
-        <div class="card-body">
-          <h4 class="card-title">{{ item.name | slice: 0:35 }}...</h4>
-          <p class="card-text">{{ item.description | slice: 0:50 }}...</p>
-          <a [routerLink]="['details', i]" class="btn float-start">See more</a>
-          <span class="float-end">{{ item.price }}$</span>
-        </div>
-      </div>
+      <app-product-card [product]="product"></app-product-card>
     </div>
   </div>
 </div>
+

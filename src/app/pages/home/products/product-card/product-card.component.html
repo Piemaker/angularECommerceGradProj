@@ -1,0 +1,39 @@
+<article style="max-width: 23rem">
+  <div class="card shadow-sm card__animation">
+    <div class="p-2">
+      <a routerLink="{{ product.id }}">
+        <img
+          src="{{ product.image }}"
+          style="object-fit: scale-down; max-height: 200px; width: 100%"
+        />
+      </a>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title font-weight-bold">
+        <a>{{ product.title }}</a>
+      </h5>
+      <ul class="list-unstyled list-inline mb-2">
+        <fa-icon
+          *ngFor="let rating of ratingArr"
+          [icon]="
+            rating >= 1
+              ? faStar
+              : rating < 1 && rating > 0
+              ? faStarHalfAlt
+              : faStar
+          "
+          [ngStyle]="{
+            color:
+              rating >= 1
+                ? 'gold'
+                : rating < 1 && rating > 0
+                ? 'gold'
+                : 'silver'
+          }"
+        ></fa-icon>
+        <h5 class="float-end">$ {{ product.price }}</h5>
+      </ul>
+      <p class="card-text">{{ product.description | slice: 0:100 }}...</p>
+    </div>
+  </div>
+</article>

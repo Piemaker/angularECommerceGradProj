@@ -14,7 +14,6 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       { path: '', redirectTo: 'products', pathMatch: 'full' },
-
       { path: 'user', loadChildren: () => UserModule },
       { path: 'cart', loadChildren: () => CartModule },
       { path: 'products', loadChildren: () => ProductsModule },

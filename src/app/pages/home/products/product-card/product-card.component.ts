@@ -31,7 +31,7 @@ export class ProductCardComponent implements OnInit {
   ngOnInit(): void {
     this.ratingArr = this.getRatingArr(this.product.rating.rate);
   }
-
+  // to correctly render the stars
   getRatingArr(rating: number): number[] {
     let ratingArr = [];
     for (let i = 0; i < 5; i++) {

@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiBaseUrl: 'https://clothing-store55.herokuapp.com',
+  productsBaseUrl: 'https://fakestoreapi.com',
 };
 
 /*

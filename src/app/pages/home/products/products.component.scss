@@ -31,3 +31,10 @@
   font-weight: 900;
   color: #446a46;
 }
+
+@media (max-width: 768px) {
+  .dropdown{
+    display: flex;
+    justify-content: center;
+  }
+}

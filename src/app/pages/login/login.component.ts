@@ -2,7 +2,7 @@ import { LoginLogoutService } from './../../services/login-logout.service';
 import { Router } from '@angular/router';
 import { UserService } from './../../services/user.service';
 import { Subscription } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IUserLogin } from '../../models/user';
 import { faBackward } from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +11,7 @@ import { faBackward } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   // @ViewChild('f', { static: true }) form: NgForm;
   userForm: IUserLogin = {
     email: '',
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   };
   error = '';
   isLoading = false;
-  loginObservable: Subscription | undefined;
+  loginSubscription: Subscription | undefined;
   faBackward = faBackward;
 
   constructor(
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     }
     this.isLoading = true;
 
-    this.loginObservable = this._userService
+    this.loginSubscription = this._userService
       .postLoginUser(this.userForm)
       .subscribe({
         next: (data) => {
@@ -60,5 +60,8 @@ export class LoginComponent implements OnInit {
           this.isLoading = false;
         },
       });
+  }
+  ngOnDestroy(): void {
+    this.loginSubscription?.unsubscribe();
   }
 }

@@ -1,7 +1,7 @@
 <article style="max-width: 23rem">
   <div class="card shadow-sm card__animation">
     <div class="p-2">
-      <a routerLink="{{ product.id }}">
+      <a [routerLink]="['details', product.id]">
         <img
           src="{{ product.image }}"
           style="object-fit: scale-down; max-height: 200px; width: 100%"
@@ -12,7 +12,10 @@
       <h5 class="card-title font-weight-bold">
         <a>{{ product.title }}</a>
       </h5>
-      <ul class="list-unstyled list-inline mb-2">
+      <h6 class="card-subtitle text-muted text-capitalize mb-1">
+        {{ product.category }}
+      </h6>
+      <ul class="list-unstyled list-inline mb-1">
         <fa-icon
           *ngFor="let rating of ratingArr"
           [icon]="

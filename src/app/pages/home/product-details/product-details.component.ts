@@ -63,7 +63,7 @@ export class ProductDetailsComponent implements OnInit {
   }
   handleClick(product: ProductI) {
     // TODO add logic to add cart to local storage
-    console.log(product);
+    this._ProductService.addCartItem(product)
     this.setHideMessage(product.title);
   }
 }

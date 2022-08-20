@@ -12,3 +12,13 @@ interface Rating {
   rate: number;
   count: number;
 }
+
+export interface UserCart {
+  [key: string | number]: {
+    [key: string | number]: AugmentedProductI;
+  };
+}
+
+export interface AugmentedProductI extends ProductI {
+  count: number;
+}

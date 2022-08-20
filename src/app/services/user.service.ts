@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IUserRes, IUserRegister, IUserLogin } from './../models/user';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
@@ -10,6 +10,10 @@ import { environment } from 'src/environments/environment.prod';
 export class UserService {
   apiBaseUrl = environment.apiBaseUrl;
   constructor(private _httpClient: HttpClient) {}
+  dummyDataKey = environment.dummyDataKey;
+  userHeaders = new HttpHeaders({
+    'app-id': this.dummyDataKey,
+  });
 
   getUsers(): Observable<IUserRes> {
     return this._httpClient.get<IUserRes>(`${this.apiBaseUrl}/users`);

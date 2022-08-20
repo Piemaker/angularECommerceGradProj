@@ -16,3 +16,10 @@ export interface IUserRegister {
   password: string;
   email: string | null;
 }
+
+export interface IUserRegisterDummy {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}

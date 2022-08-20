@@ -1,12 +1,8 @@
 import { LoginLogoutService } from './login-logout.service';
 import { environment } from 'src/environments/environment.prod';
-import {
-  ProductI,
-  AugmentedProductI,
-  UserCarts,
-} from './../models/products';
+import { ProductI, AugmentedProductI, UserCarts } from './../models/products';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, map, combineLatest } from 'rxjs';
+import { Observable, BehaviorSubject, map, combineLatest, filter } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -18,9 +14,15 @@ export class ProductsService {
   userCarts: UserCarts = {};
   userCartsChange = new BehaviorSubject<UserCarts>({});
 
-  userCartById = (userId: string | number) =>
-    this.userCartsChange.pipe(map((carts) => carts[userId]));
-
+  userCartById = (userId: string | number) => {
+    //! Id doesn't seem to be string
+    let id = userId + '';
+    return this.userCartsChange.pipe(
+      map((carts) => {
+        return carts[id];
+      })
+    );
+  };
   constructor(
     private _HttpClient: HttpClient,
     private _LoginLogoutService: LoginLogoutService
@@ -29,13 +31,8 @@ export class ProductsService {
       this._LoginLogoutService.userIdChange,
       this.userCartsChange
     ).subscribe(([userId, userCarts]) => {
-      console.log("🚀 ~ file: products.service.ts ~ line 33 ~ ProductsService ~ ).subscribe ~ userId", userId)
       this.userId = userId;
       this.userCarts = userCarts;
-      console.log(
-        '🚀 ~ file: products.service.ts ~ line 36 ~ ProductsService ~ constructor ~ userCarts',
-        userCarts
-      );
     });
     let jsonCarts: any = localStorage.getItem(`userCarts`);
     let userCartsObj = JSON.parse(jsonCarts) || {};
@@ -56,10 +53,6 @@ export class ProductsService {
     let addedProduct = { ...userCartsCopy[this.userId][id] };
     addedProduct.count++;
     userCartsCopy[this.userId][id] = addedProduct;
-    console.log(
-      '🚀 ~ file: products.service.ts ~ line 40 ~ ProductsService ~ addCartItem ~  this.userCart',
-      userCartsCopy
-    );
     let stringifiedCarts = JSON.stringify(userCartsCopy);
     localStorage.setItem(`userCarts`, stringifiedCarts);
     this.userCartsChange.next(userCartsCopy);

@@ -31,6 +31,8 @@ export class ProductDetailsComponent implements OnInit {
   };
   id: number = 0;
   ratingArr: number[] = [];
+  message = '';
+  isButtonDisabled = false;
   constructor(
     public _ProductService: ProductsService,
     private _Router: ActivatedRoute
@@ -44,5 +46,24 @@ export class ProductDetailsComponent implements OnInit {
     this._ProductService.getProduct(this.id).subscribe((product) => {
       this.product = product;
     });
+  }
+  setHideMessage(message: string) {
+    this.message = `${message} has been added to cart`;
+    this.disableAddButton()
+    setTimeout(() => {
+      this.message = '';
+      this.enableAddButton()
+    }, 500);
+  }
+  disableAddButton() {
+    this.isButtonDisabled = true;
+  }
+  enableAddButton() {
+    this.isButtonDisabled = false;
+  }
+  handleClick(product: ProductI) {
+    // TODO add logic to add cart to local storage
+    console.log(product);
+    this.setHideMessage(product.title);
   }
 }

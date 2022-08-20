@@ -1,3 +1,4 @@
+import { CommonComponentsModule } from './../../../common/common-module/commonComponents.module';
 import { ProductDetailsComponent } from './../product-details/product-details.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgModule } from '@angular/core';
@@ -19,7 +20,8 @@ import { RatingDirective } from './directives/rating.directive';
   imports: [
     CommonModule,
     ProductsRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    CommonComponentsModule
 
   ]
 })

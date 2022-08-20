@@ -1,10 +1,26 @@
- <div *ngIf="errorMessage" class="toast fixed-top m-auto mt-5 bg-danger text-capitalize text-white" style="display: block;" role="alert" aria-live="assertive" aria-atomic="true">
+<div
+  *ngIf="message"
+  class="toast fixed-top m-auto mt-5 text-capitalize text-white"
+  [ngClass]="isError ? 'bg-danger' : 'bg-success'"
+  style="display: block"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+>
   <div class="toast-header">
-    <strong class="me-auto"><fa-icon [icon]="faWarning"></fa-icon></strong>
-    <small class="text-muted">Error submitting data</small>
-    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" (click)="hideToast()"></button>
+    <strong class="me-auto"
+      ><fa-icon [icon]="isError ? faWarning : faCheck"></fa-icon
+    ></strong>
+    <small class="text-muted">Attention</small>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="toast"
+      aria-label="Close"
+      (click)="hideToast()"
+    ></button>
   </div>
   <div class="toast-body">
-   {{errorMessage}}
+    {{ message }}
   </div>
 </div>

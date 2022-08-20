@@ -41,7 +41,8 @@
           <p class="card-text ">{{ product.description }}</p>
         </div>
     </div>
-    <button class="btn btn-outline-success w-100 my-3">Add to Cart <fa-icon [icon]="faAdd"></fa-icon> </button>
+    <button [disabled]="isButtonDisabled" (click)="handleClick(product)" class="btn btn-outline-success w-100 my-3">Add to Cart <fa-icon [icon]="faAdd"></fa-icon> </button>
     </div>
   </div>
 </div>
+<app-toast [isError]="false" [message]="message"></app-toast>

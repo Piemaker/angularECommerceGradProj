@@ -14,9 +14,11 @@ interface Rating {
 }
 
 export interface UserCart {
-  [key: string | number]: {
-    [key: string | number]: AugmentedProductI;
-  };
+  [key: string | number]: AugmentedProductI;
+}
+
+export interface UserCarts {
+  [key: string | number]: UserCart;
 }
 
 export interface AugmentedProductI extends ProductI {

@@ -1,44 +1,68 @@
+import { LoginLogoutService } from './login-logout.service';
 import { environment } from 'src/environments/environment.prod';
-import { ProductI, UserCart, AugmentedProductI } from './../models/products';
+import {
+  ProductI,
+  AugmentedProductI,
+  UserCarts,
+} from './../models/products';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, map, combineLatest } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { faGrinTongueSquint } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
-  userCart: UserCart = {};
-  userCartChange = new BehaviorSubject<UserCart>({});
-  constructor(private _HttpClient: HttpClient) {
-    this.userCartChange.subscribe((value) => {
-      this.userCart = value;
+  // state: [number | string, UserCarts];
+  userId: number | string = '';
+  userCarts: UserCarts = {};
+  userCartsChange = new BehaviorSubject<UserCarts>({});
+
+  userCartById = (userId: string | number) =>
+    this.userCartsChange.pipe(map((carts) => carts[userId]));
+
+  constructor(
+    private _HttpClient: HttpClient,
+    private _LoginLogoutService: LoginLogoutService
+  ) {
+    combineLatest(
+      this._LoginLogoutService.userIdChange,
+      this.userCartsChange
+    ).subscribe(([userId, userCarts]) => {
+      console.log("🚀 ~ file: products.service.ts ~ line 33 ~ ProductsService ~ ).subscribe ~ userId", userId)
+      this.userId = userId;
+      this.userCarts = userCarts;
+      console.log(
+        '🚀 ~ file: products.service.ts ~ line 36 ~ ProductsService ~ constructor ~ userCarts',
+        userCarts
+      );
     });
-    let userId = localStorage.getItem('userId') || '1';
-    let jsonCart: any = localStorage.getItem(`${userId}`);
-    let userCartObj = JSON.parse(jsonCart) || {};
-    this.userCartChange.next(userCartObj);
+    let jsonCarts: any = localStorage.getItem(`userCarts`);
+    let userCartsObj = JSON.parse(jsonCarts) || {};
+    this.userCartsChange.next(userCartsObj);
   }
 
   addCartItem(product: ProductI) {
     let id = product.id;
-    console.log(this.userCart);
-    if (!this.userCart.hasOwnProperty(id)) {
-      let augmentedProduct: AugmentedProductI = { ...product, count: 0 };
-      //! this will add an additional key of name 'augmentedProduct'
-      this.userCart[id] = { augmentedProduct };
+    console.log(this.userCarts);
+    let userCartsCopy: UserCarts = JSON.parse(JSON.stringify(this.userCarts));
+    if (!userCartsCopy[this.userId]) {
+      userCartsCopy = { ...userCartsCopy, [this.userId]: {} };
     }
-    let addedProduct = { ...this.userCart[id] };
-    addedProduct['augmentedProduct'].count++;
-    this.userCart[id] = addedProduct;
+    if (!userCartsCopy[this.userId].hasOwnProperty(id)) {
+      let augmentedProduct: AugmentedProductI = { ...product, count: 0 };
+      userCartsCopy[this.userId][id] = augmentedProduct;
+    }
+    let addedProduct = { ...userCartsCopy[this.userId][id] };
+    addedProduct.count++;
+    userCartsCopy[this.userId][id] = addedProduct;
     console.log(
       '🚀 ~ file: products.service.ts ~ line 40 ~ ProductsService ~ addCartItem ~  this.userCart',
-      this.userCart
+      userCartsCopy
     );
-    let stringifiedCart = JSON.stringify(this.userCart);
-    //TODO make userId dynamic
-    localStorage.setItem('1', stringifiedCart);
+    let stringifiedCarts = JSON.stringify(userCartsCopy);
+    localStorage.setItem(`userCarts`, stringifiedCarts);
+    this.userCartsChange.next(userCartsCopy);
   }
 
   getProducts(): Observable<ProductI[]> {

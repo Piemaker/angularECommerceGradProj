@@ -1,15 +1,71 @@
 <div
+  *ngIf="!userCart"
   class="container min-vw-100 d-flex flex-column align-items-center justify-content-center calc-height"
-
 >
-  <div class="row flex-column h-100 align-items-center justify-content-center ">
-      <img
-        src="../../../../assets/photos/undraw_empty_cart_co35.svg"
-        alt="empty cart"
-        class="image-fluid col col-md-6"
-      />
-  <h2 class="display-4 text-center">Add Items 😉</h2>
-
+  <div class="row flex-column h-100 align-items-center justify-content-center">
+    <img
+      src="../../../../assets/photos/undraw_empty_cart_co35.svg"
+      alt="empty cart"
+      class="image-fluid col col-md-6"
+    />
+    <h2 class="display-4 text-center">Add Items 😉</h2>
   </div>
-
 </div>
+
+<section *ngIf="userCart" class="h-100 h-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        <div
+          class="card card-registration card-registration-2"
+          style="border-radius: 15px"
+        >
+          <div class="card-body p-0">
+            <div class="row g-0">
+              <div class="col-lg-8">
+                <div class="p-5">
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-5"
+                  >
+                    <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                    <h6 class="mb-0 text-muted">{{ itemCount }}</h6>
+                  </div>
+                  <hr class="my-4" />
+
+                  <app-cart-item *ngFor="let product of userCart| keyvalue" [productObj] = "product.value"></app-cart-item>
+
+                  <div class="pt-5">
+                    <h6 class="mb-0">
+                      <a routerLink="" class="text-body text-capitalize"
+                        ><fa-icon class="p-2" [icon]="faBackward"></fa-icon>
+                        Back to shop</a
+                      >
+                    </h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 bg-grey">
+                <div class="p-5">
+                  <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                  <hr class="my-4" />
+
+                  <div class="d-flex justify-content-between mb-4">
+                    <h5 class="text-uppercase">Items {{ itemCount }}</h5>
+                    <h5>€ {{ totalPrice }}</h5>
+                  </div>
+
+                  <hr class="my-4" />
+
+                  <div class="d-flex justify-content-between mb-5">
+                    <h5 class="text-uppercase">Total price</h5>
+                    <h5>€ {{ totalPrice }}</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

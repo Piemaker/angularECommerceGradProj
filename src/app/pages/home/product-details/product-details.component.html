@@ -1,35 +1,47 @@
-<div class="container">
-    <div class="about">
+<div class="container calc-height d-flex flex-column justify-content-center ">
+  <div class="row gx-3 justify-content-center  my-5">
+    <div class="col-xs col-md-4 d-flex justify-content-center">
+      <img
+      style="object-fit: scale-down;"
+        class="img-fluid p-2 shadow-sm"
+        src="{{ product.image }}"
+      />
+    </div>
 
-        <div class="row">
-            <div class="about-img  col-md-6 col-sm-12">
-                <img [src]="selectedProduct.image" alt={{selectedProduct.title}} />
-            </div>
-            <div class="about-tex col-md-6 col-sm-12">
-                <h4>{{selectedProduct.size}}</h4>
-                <h4>{{selectedProduct.price}} $</h4>
-                <h4>{{selectedProduct.name}}</h4>
-                <p> {{selectedProduct.description}}</p>
-
-            </div>
+    <div class="col-xs col-md-8 shadow-sm d-flex flex-column justify-content-between">
+      <div class="m-0 p-2">
+        <div class="card-body">
+          <h5 class="card-title font-weight-bold">
+            <a>{{ product.title }}</a>
+          </h5>
+          <h6 class="card-subtitle text-muted text-capitalize mb-1">
+            {{ product.category }}
+          </h6>
+          <ul class="list-unstyled list-inline mb-1">
+            <fa-icon
+              *ngFor="let rating of ratingArr"
+              [icon]="
+                rating >= 1
+                  ? faStar
+                  : rating < 1 && rating > 0
+                  ? faStarHalfAlt
+                  : faStar
+              "
+              [ngStyle]="{
+                color:
+                  rating >= 1
+                    ? 'gold'
+                    : rating < 1 && rating > 0
+                    ? 'gold'
+                    : 'silver'
+              }"
+            ></fa-icon>
+            <h5 class="float-end">$ {{ product.price }}</h5>
+          </ul>
+          <p class="card-text ">{{ product.description }}</p>
         </div>
     </div>
-</div>
-
-<div class="container">
-    <h1> Related Products</h1>
-    <div class="row">
-        <div *ngFor=" let item of products ; let i = index " class="col-md-6 col-sm-12 col-lg-4">
-
-
-            <div class="card">
-                <img class="card-img-top" [src]="item.image !== null ? item.image : '../../assets/unknown.svg' "
-                    alt={{item.title}}>
-                <div class="card-body">
-                    <h4 class="card-title">{{item.name | slice:0:35}}...</h4>
-                </div>
-
-            </div>
-        </div>
+    <button class="btn btn-outline-success w-100 my-3">Add to Cart <fa-icon [icon]="faAdd"></fa-icon> </button>
     </div>
+  </div>
 </div>

@@ -1,3 +1,4 @@
+import { getRatingArr } from './../../../../common/common-module/common';
 import { ProductI } from './../../../../models/products';
 import { Component, Input, OnInit } from '@angular/core';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
@@ -29,16 +30,7 @@ export class ProductCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.ratingArr = this.getRatingArr(this.product.rating.rate);
+    this.ratingArr = getRatingArr(this.product.rating.rate);
   }
-  // to correctly render the stars
-  getRatingArr(rating: number): number[] {
-    let ratingArr = [];
-    for (let i = 0; i < 5; i++) {
-      let ratingValue = rating;
-      rating -= 1;
-      ratingArr.push(rating);
-    }
-    return ratingArr;
-  }
+ 
 }

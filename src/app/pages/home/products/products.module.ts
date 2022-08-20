@@ -1,3 +1,4 @@
+import { ProductDetailsComponent } from './../product-details/product-details.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,6 +13,7 @@ import { RatingDirective } from './directives/rating.directive';
   declarations: [
     ProductsComponent,
     ProductCardComponent,
+    ProductDetailsComponent,
     RatingDirective
   ],
   imports: [

@@ -1,33 +1,48 @@
-import { Component } from '@angular/core';
-
-import { FetchDataService } from '../../../services/fetch-data.service';
+import { getRatingArr } from './../../../common/common-module/common';
 import { ActivatedRoute } from '@angular/router';
+import { ProductI } from './../../../models/products';
+import { ProductsService } from './../../../services/products.service';
+import { Component, OnInit } from '@angular/core';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
+import { faAdd } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.scss']
+  styleUrls: ['./product-details.component.scss'],
 })
-export class ProductDetailsComponent {
-  selectedProduct: any = {};
-  id: any;
-  products: any = [];
-  constructor(public _FetchDataService: FetchDataService, public _ActivatedRoute: ActivatedRoute) {
-    this.id = this._ActivatedRoute.snapshot.paramMap.get("id");
+export class ProductDetailsComponent implements OnInit {
+  faAdd = faAdd;
+  faStar = faStar;
+  faStarHalfAlt = faStarHalfAlt;
+  product: ProductI = {
+    id: 1,
+    title: 'Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops',
+    price: 109.95,
+    description:
+      'Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday',
+    category: "men's clothing",
+    image: 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
+    rating: {
+      rate: 3.9,
+      count: 120,
+    },
+  };
+  id: number = 0;
+  ratingArr: number[] = [];
+  constructor(
+    public _ProductService: ProductsService,
+    private _Router: ActivatedRoute
+  ) {}
 
-    this._FetchDataService.getData().subscribe((data) => {
-      this.selectedProduct = data[this.id];
-      console.log("selected product", this.selectedProduct);
-    }
-    );
+  ngOnInit(): void {
+    this.ratingArr = getRatingArr(this.product.rating.rate);
 
-    this._FetchDataService.getData().subscribe((data) => {
-      this.products.push(data[1] , data[2] , data[3]);
+    this.id = Number(this._Router.snapshot.paramMap.get('id'));
+
+    this._ProductService.getProduct(this.id).subscribe((product) => {
+      this.product = product;
     });
-
-
-
   }
-
-
-
 }

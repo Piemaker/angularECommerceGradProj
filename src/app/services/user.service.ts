@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IUserRes, IUserRegister, IUserLogin } from './../models/user';
+import { IUserRes, IUserRegister, IUserLogin, IUserLoginRes } from './../models/user';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 
@@ -36,13 +36,14 @@ export class UserService {
 
   postRegisteredUser(userData: IUserRegister): Observable<IUserRes> {
     return this._httpClient.post<IUserRes>(
-      `${environment.apiBaseUrl}/register`,
+      `${environment.apiBaseUrl}/register/
+`,
       userData
     );
   }
-  postLoginUser(userObj: IUserLogin): Observable<IUserRes> {
-    return this._httpClient.post<IUserRes>(
-      `${this.apiBaseUrl}/login`,
+  postLoginUser(userObj: IUserLogin): Observable<IUserLoginRes> {
+    return this._httpClient.post<IUserLoginRes>(
+      `${environment.apiBaseUrl}/login/`,
       userObj,
       {
         headers: this.headers,

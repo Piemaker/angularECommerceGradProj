@@ -1,3 +1,4 @@
+import { LoginLogoutService } from './../../../services/login-logout.service';
 import { getRatingArr } from './../../../common/common-module/common';
 import { ActivatedRoute } from '@angular/router';
 import { ProductI } from './../../../models/products';
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
+import { faDoorClosed } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-product-details',
@@ -15,6 +17,7 @@ import { faAdd } from '@fortawesome/free-solid-svg-icons';
 export class ProductDetailsComponent implements OnInit {
   faAdd = faAdd;
   faStar = faStar;
+  faDoorClosed = faDoorClosed;
   faStarHalfAlt = faStarHalfAlt;
   product: ProductI = {
     id: 1,
@@ -30,13 +33,19 @@ export class ProductDetailsComponent implements OnInit {
     },
   };
   id: number = 0;
+  userId: number | string = '';
   ratingArr: number[] = [];
   message = '';
   isButtonDisabled = false;
   constructor(
     public _ProductService: ProductsService,
-    private _Router: ActivatedRoute
-  ) {}
+    private _Router: ActivatedRoute,
+    private _LoginLogoutService: LoginLogoutService
+  ) {
+    _LoginLogoutService.userIdChange.subscribe((id) => {
+      this.userId = id;
+    });
+  }
 
   ngOnInit(): void {
     this.ratingArr = getRatingArr(this.product.rating.rate);
@@ -49,10 +58,10 @@ export class ProductDetailsComponent implements OnInit {
   }
   setHideMessage(message: string) {
     this.message = `${message} has been added to cart`;
-    this.disableAddButton()
+    this.disableAddButton();
     setTimeout(() => {
       this.message = '';
-      this.enableAddButton()
+      this.enableAddButton();
     }, 500);
   }
   disableAddButton() {
@@ -62,8 +71,7 @@ export class ProductDetailsComponent implements OnInit {
     this.isButtonDisabled = false;
   }
   handleClick(product: ProductI) {
-    // TODO add logic to add cart to local storage
-    this._ProductService.addCartItem(product)
+    this._ProductService.addCartItem(product);
     this.setHideMessage(product.title);
   }
 }

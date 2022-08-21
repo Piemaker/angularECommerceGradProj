@@ -33,7 +33,7 @@
           <a class="nav-link" routerLinkActive="active" routerLink="cart">
             <div class="position-relative">
               <fa-icon [icon]="faCartShopping"> </fa-icon>
-              <span
+              <span *ngIf="itemCount != 0"
                 class="position-absolute top-10 start-10 translate-middle badge rounded-pill bg-danger"
               >
                {{itemCount}}

@@ -41,20 +41,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (data) => {
           this.isLoading = true;
+          this._loginLogoutService.loginUser(`${data.email}`, `${data.token}`);
+
           // this._loginLogoutService.loginUser(`${data.id}`);
           this._router.navigate(['home']);
         },
         error: (error) => {
           this.isLoading = false;
-          // handle case of sending the token in an error body
-          if (error.status === 200) {
-            // this is the token
-            let token = error.error.text;
-            this._loginLogoutService.loginUser(`${token}`);
-            this._router.navigate(['home']);
-          }
+
           this.error = '';
-          this.error = error.error;
+          this.error = error.error.errorMessage;
         },
         complete: () => {
           this.isLoading = false;

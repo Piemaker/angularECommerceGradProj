@@ -11,8 +11,14 @@ export interface IUserLogin {
   email: string | null;
 }
 
+export interface IUserLoginRes {
+  password: string;
+  email: string;
+  token : string
+
+}
 export interface IUserRegister {
-  username: string | null;
+  name: string | null;
   password: string;
   email: string | null;
 }

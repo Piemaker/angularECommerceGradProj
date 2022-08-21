@@ -16,13 +16,17 @@ export class RegisterComponent implements OnInit {
   userForm: IUserRegister = {
     email: '',
     password: '',
-    username: '',
+    name: '',
   };
   error = '';
   isLoading = false;
   registrationObservable: Subscription | undefined;
   faBackward = faBackward;
-  constructor(private _userService: UserService, private _router: Router, private _loginLogoutService : LoginLogoutService) {}
+  constructor(
+    private _userService: UserService,
+    private _router: Router,
+    private _loginLogoutService: LoginLogoutService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -34,21 +38,24 @@ export class RegisterComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-
     this.registrationObservable = this._userService
       .postRegisteredUser(this.userForm)
       .subscribe({
         next: (data) => {
-        // console.log("🚀 ~ file: register.component.ts ~ line 42 ~ RegisterComponent ~ onSubmit ~ data", data)
           this.isLoading = true;
           this._router.navigate(['login']);
         },
         error: (error) => {
           this.isLoading = false;
-          this.error = '';
-          this.error = error.error;
+          this.error = error.error.errorMessage;
+          if (error.status === 200) {
+          this._router.navigate(['login']);
+            
+          }
+
         },
         complete: () => {
+          this._router.navigate(['login']);
           this.isLoading = false;
         },
       });

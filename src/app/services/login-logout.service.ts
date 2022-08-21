@@ -32,10 +32,10 @@ export class LoginLogoutService {
     return promise;
   }
 
-  loginUser(id: string) {
+  loginUser(id: string, token : string) {
     //! id is token
     this.userChange.next(id);
-    localStorage.setItem('token', `${id}`);
+    localStorage.setItem('token', `${token}`);
 
     this.userIdChange.next(id);
     localStorage.setItem('userId', `${id}`);

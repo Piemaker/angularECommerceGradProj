@@ -41,7 +41,9 @@
           <p class="card-text ">{{ product.description }}</p>
         </div>
     </div>
-    <button [disabled]="isButtonDisabled" (click)="handleClick(product)" class="btn btn-outline-success w-100 my-3">Add to Cart <fa-icon [icon]="faAdd"></fa-icon> </button>
+    <button *ngIf="!userId" routerLink="/login" class="btn btn-outline-success w-100 my-3">Login to Add Item <fa-icon [icon]="faDoorClosed"></fa-icon> </button>
+
+    <button *ngIf="userId" [disabled]="isButtonDisabled" (click)="handleClick(product)" class="btn btn-outline-success w-100 my-3">Add to Cart <fa-icon [icon]="faAdd"></fa-icon> </button>
     </div>
   </div>
 </div>

@@ -3,7 +3,7 @@ import { LoginLogoutService } from './../../../services/login-logout.service';
 import { UserCart } from './../../../models/products';
 import { ProductsService } from './../../../services/products.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { faBackward } from '@fortawesome/free-solid-svg-icons';
+import { faBackward, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-cart',
@@ -16,6 +16,7 @@ export class CartComponent implements OnInit, OnDestroy {
   loginSubscription: Subscription | undefined;
   productSubscription: Subscription | undefined;
   faBackward = faBackward;
+  faXmark = faXmark;
   itemCount = 0;
   totalPrice = 0;
 
@@ -33,10 +34,8 @@ export class CartComponent implements OnInit, OnDestroy {
             this.getItemCount();
             this.getTotalPrice();
           });
-        
       }
     );
-    
   }
 
   getItemCount() {
@@ -53,9 +52,11 @@ export class CartComponent implements OnInit, OnDestroy {
     }
     this.totalPrice = totalPrice;
   }
-
+  handleClear() {
+    this._ProductService.clearCart()
+  }
   ngOnInit(): void {
-    console.log("onInit called")
+    console.log('onInit called');
     this.getItemCount();
     this.getTotalPrice();
   }

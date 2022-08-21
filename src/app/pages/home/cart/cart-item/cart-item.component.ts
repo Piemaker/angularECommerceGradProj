@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { ProductsService } from './../../../../services/products.service';
 import { AugmentedProductI } from './../../../../models/products';
 import { Component, Input, OnInit } from '@angular/core';
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMinus,faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-cart-item',
@@ -28,6 +28,7 @@ export class CartItemComponent implements OnInit {
   };
   faPlus = faPlus;
   faMinus = faMinus;
+  faTrash = faTrash;
   userId: string | number = '';
   totalPrice: number = 0;
   productSubscription: Subscription | undefined;
@@ -47,7 +48,10 @@ export class CartItemComponent implements OnInit {
   handleDecrease(productId: number | string) {
     this._ProductService.decreaseCartItemCount(productId);
   }
-
+  handleDelete(productId: number | string) {
+    this._ProductService.deleteCartItem(productId);
+    
+  }
   ngOnInit(): void {
     this.getTotalProductsPrice();
   }

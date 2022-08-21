@@ -28,6 +28,7 @@
                     class="d-flex justify-content-between align-items-center mb-5"
                   >
                     <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+
                     <h6 class="mb-0 text-muted">{{ itemCount }}</h6>
                   </div>
                   <hr class="my-4" />
@@ -49,7 +50,15 @@
               </div>
               <div class="col-lg-4 bg-grey">
                 <div class="p-5">
-                  <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <h3 class="fw-bold pt-1">Summary</h3>
+                    <button (click)="handleClear()" class="btn btn-danger">
+                      <fa-icon [icon]="faXmark"></fa-icon>
+                    </button>
+                  </div>
+
                   <hr class="my-4" />
 
                   <div class="d-flex justify-content-between mb-4">

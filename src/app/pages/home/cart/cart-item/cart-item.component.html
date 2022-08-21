@@ -12,7 +12,7 @@
       {{ productObj.category }}
     </h6>
   </div>
-  <div class="col-md-4 d-flex my-2">
+  <div class="col-md-3 d-flex my-2">
     <button class="btn btn-link" (click)="handleDecrease(productObj.id)">
       <fa-icon [icon]="faMinus"></fa-icon>
     </button>
@@ -29,6 +29,11 @@
 
     <button class="btn btn-link" (click)="handleIncrease(productObj.id)">
       <fa-icon [icon]="faPlus"></fa-icon>
+    </button>
+  </div>
+  <div class="col-md-1">
+    <button (click)="handleDelete(productObj.id)" class="btn btn-danger">
+      <fa-icon [icon]="faTrash"></fa-icon>
     </button>
   </div>
   <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">

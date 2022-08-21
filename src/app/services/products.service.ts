@@ -79,10 +79,32 @@ export class ProductsService {
     let userProductCopy = JSON.parse(
       JSON.stringify(userCartsCopy[this.userId])
     );
+    if (userProductCopy[productId].count <= 1) {
+      this.deleteCartItem(productId);
+    } else {
+      userProductCopy[productId].count--;
+      userCartsCopy[this.userId] = userProductCopy;
+      let stringifiedCarts = JSON.stringify(userCartsCopy);
+      localStorage.setItem(`userCarts`, stringifiedCarts);
+      this.userCartsChange.next(userCartsCopy);
+    }
+  }
 
-    userProductCopy[productId].count--;
+  deleteCartItem(productId: number | string) {
+    let userCartsCopy: UserCarts = JSON.parse(JSON.stringify(this.userCarts));
+    delete userCartsCopy[this.userId][productId];
+    if (Object.keys(userCartsCopy[this.userId]).length !== 0) {
+      let stringifiedCarts = JSON.stringify(userCartsCopy);
+      localStorage.setItem(`userCarts`, stringifiedCarts);
+      this.userCartsChange.next(userCartsCopy);
+    } else {
+      this.clearCart();
+    }
+  }
 
-    userCartsCopy[this.userId] = userProductCopy;
+  clearCart() {
+    let userCartsCopy: UserCarts = JSON.parse(JSON.stringify(this.userCarts));
+    delete userCartsCopy[this.userId];
     let stringifiedCarts = JSON.stringify(userCartsCopy);
     localStorage.setItem(`userCarts`, stringifiedCarts);
     this.userCartsChange.next(userCartsCopy);

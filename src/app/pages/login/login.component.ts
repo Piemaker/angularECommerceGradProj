@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (data) => {
           this.isLoading = true;
-          this._loginLogoutService.loginUser(`${data.email}`, `${data.token}`);
+          this._loginLogoutService.loginUser(`${data.email}`, `${data.token}`, `${data.name}`,`${data.email}`);
 
           // this._loginLogoutService.loginUser(`${data.id}`);
           this._router.navigate(['home']);

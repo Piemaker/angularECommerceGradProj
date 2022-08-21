@@ -12,10 +12,10 @@ export interface IUserLogin {
 }
 
 export interface IUserLoginRes {
+  name: string;
   password: string;
   email: string;
-  token : string
-
+  token: string;
 }
 export interface IUserRegister {
   name: string | null;

@@ -1,6 +1,11 @@
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IUserRes, IUserRegister, IUserLogin, IUserLoginRes } from './../models/user';
+import {
+  IUserRes,
+  IUserRegister,
+  IUserLogin,
+  IUserLoginRes,
+} from './../models/user';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 

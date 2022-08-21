@@ -1,7 +1,9 @@
+import { LoginLogoutService } from './../../../../services/login-logout.service';
+import { Subscription } from 'rxjs';
+import { ProductsService } from './../../../../services/products.service';
 import { AugmentedProductI } from './../../../../models/products';
 import { Component, Input, OnInit } from '@angular/core';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
-
 
 @Component({
   selector: 'app-cart-item',
@@ -26,8 +28,27 @@ export class CartItemComponent implements OnInit {
   };
   faPlus = faPlus;
   faMinus = faMinus;
+  userId: string | number = '';
+  totalPrice: number = 0;
+  productSubscription: Subscription | undefined;
+  loginSubscription: Subscription | undefined;
 
-  constructor() {}
+  constructor(
+    private _ProductService: ProductsService,
+    private _LoginLogoutService: LoginLogoutService
+  ) {}
+  getTotalProductsPrice() {
+    this.totalPrice = this.productObj.count * this.productObj.price;
+  }
+  handleIncrease(productId: number | string) {
+    this._ProductService.increaseCartItemCount(productId);
+  }
 
-  ngOnInit(): void {}
+  handleDecrease(productId: number | string) {
+    this._ProductService.decreaseCartItemCount(productId);
+  }
+
+  ngOnInit(): void {
+    this.getTotalProductsPrice();
+  }
 }

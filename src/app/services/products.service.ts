@@ -34,6 +34,7 @@ export class ProductsService {
       this.userId = userId;
       this.userCarts = userCarts;
     });
+
     let jsonCarts: any = localStorage.getItem(`userCarts`);
     let userCartsObj = JSON.parse(jsonCarts) || {};
     this.userCartsChange.next(userCartsObj);
@@ -41,7 +42,6 @@ export class ProductsService {
 
   addCartItem(product: ProductI) {
     let id = product.id;
-    console.log(this.userCarts);
     let userCartsCopy: UserCarts = JSON.parse(JSON.stringify(this.userCarts));
     if (!userCartsCopy[this.userId]) {
       userCartsCopy = { ...userCartsCopy, [this.userId]: {} };
@@ -53,6 +53,36 @@ export class ProductsService {
     let addedProduct = { ...userCartsCopy[this.userId][id] };
     addedProduct.count++;
     userCartsCopy[this.userId][id] = addedProduct;
+    let stringifiedCarts = JSON.stringify(userCartsCopy);
+    localStorage.setItem(`userCarts`, stringifiedCarts);
+    this.userCartsChange.next(userCartsCopy);
+  }
+
+  increaseCartItemCount(productId: number | string) {
+    let userCartsCopy: UserCarts = JSON.parse(JSON.stringify(this.userCarts));
+    // spread operator won't suffice
+    let userProductCopy = JSON.parse(
+      JSON.stringify(userCartsCopy[this.userId])
+    );
+
+    userProductCopy[productId].count++;
+
+    userCartsCopy[this.userId] = userProductCopy;
+    let stringifiedCarts = JSON.stringify(userCartsCopy);
+    localStorage.setItem(`userCarts`, stringifiedCarts);
+    this.userCartsChange.next(userCartsCopy);
+  }
+
+  decreaseCartItemCount(productId: number | string) {
+    let userCartsCopy: UserCarts = JSON.parse(JSON.stringify(this.userCarts));
+    // spread operator won't suffice
+    let userProductCopy = JSON.parse(
+      JSON.stringify(userCartsCopy[this.userId])
+    );
+
+    userProductCopy[productId].count--;
+
+    userCartsCopy[this.userId] = userProductCopy;
     let stringifiedCarts = JSON.stringify(userCartsCopy);
     localStorage.setItem(`userCarts`, stringifiedCarts);
     this.userCartsChange.next(userCartsCopy);

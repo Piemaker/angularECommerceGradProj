@@ -32,7 +32,10 @@
                   </div>
                   <hr class="my-4" />
 
-                  <app-cart-item *ngFor="let product of userCart| keyvalue" [productObj] = "product.value"></app-cart-item>
+                  <app-cart-item
+                    *ngFor="let product of userCart | keyvalue"
+                    [productObj]="product.value"
+                  ></app-cart-item>
 
                   <div class="pt-5">
                     <h6 class="mb-0">
@@ -51,14 +54,14 @@
 
                   <div class="d-flex justify-content-between mb-4">
                     <h5 class="text-uppercase">Items {{ itemCount }}</h5>
-                    <h5>€ {{ totalPrice }}</h5>
+                    <h5>€ {{ totalPrice | number }}</h5>
                   </div>
 
                   <hr class="my-4" />
 
                   <div class="d-flex justify-content-between mb-5">
                     <h5 class="text-uppercase">Total price</h5>
-                    <h5>€ {{ totalPrice }}</h5>
+                    <h5>€ {{ totalPrice | number }}</h5>
                   </div>
                 </div>
               </div>

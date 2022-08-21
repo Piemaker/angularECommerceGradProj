@@ -30,9 +30,13 @@ export class CartComponent implements OnInit, OnDestroy {
           .userCartById(id)
           .subscribe((cart) => {
             this.userCart = cart;
+            this.getItemCount();
+            this.getTotalPrice();
           });
+        
       }
     );
+    
   }
 
   getItemCount() {
@@ -51,6 +55,7 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log("onInit called")
     this.getItemCount();
     this.getTotalPrice();
   }

@@ -31,7 +31,15 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" routerLink="cart">
-            <fa-icon [icon]="faCartShopping"></fa-icon>
+            <div class="position-relative">
+              <fa-icon [icon]="faCartShopping"> </fa-icon>
+              <span
+                class="position-absolute top-10 start-10 translate-middle badge rounded-pill bg-danger"
+              >
+               {{itemCount}}
+                <span class="visually-hidden">Added items</span>
+              </span>
+            </div>
           </a>
         </li>
         <li class="nav-item">
